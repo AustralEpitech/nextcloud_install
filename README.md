@@ -8,6 +8,7 @@ export SQL_PASSWD="passwd"
 export SERVER_NAME="your.server.com"
 ```
 
+then, run installation script:
 ```console
 curl https://raw.githubusercontent.com/AustralEpitech/nextcloud_install/main/install.sh | sudo bash
 ```
