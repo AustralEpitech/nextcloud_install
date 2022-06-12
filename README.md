@@ -11,3 +11,7 @@ export SERVER_NAME="your.server.com"
 ```console
 curl https://raw.githubusercontent.com/AustralEpitech/nextcloud_install/main/install.sh | sudo bash
 ```
+
+
+# TODO:
+- [ ] pretty urls
