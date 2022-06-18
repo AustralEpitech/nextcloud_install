@@ -1,0 +1,44 @@
+version: '3'
+
+volumes:
+  db:
+  nextcloud:
+  apps:
+  config:
+  data: 
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=yann
+      - POSTGRES_USER=yann
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_HOST=db
+
+  redis:
+    image: redis
+    restart: always
+
+  app:
+    image: nextcloud
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - nextcloud:/var/www/html
+      - apps:/var/www/html/custom_apps
+      - config:/var/www/html/config
+      - data:/var/www/html/data
+    environment:
+      - POSTGRES_PASSWORD=yann
+      - POSTGRES_USER=yann
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_HOST=db
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - redis
