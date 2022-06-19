@@ -1,8 +1,6 @@
 #!/usr/bin/bash
 set -e
 
-CP="cp -f"
-
 DEPS=(
     apache2
     certbot
@@ -27,15 +25,11 @@ source ./env
 apt update && apt upgrade -y
 apt install -y "${DEPS[@]}"
 
-for FILE in nextcloud*.conf; do
-    envsubst < "$FILE" > "$FILE"
-done
-
-$CP nextcloud.conf /etc/apache2/sites-available
+envsubst < nextcloud.conf > /etc/apache2/sites-available/nextcloud.conf
 
 certbot certonly -n --apache -d "$SERVER_URL" -m "$SERVER_MAIL" --agree-tos --test-cert
 
-$CP nextcloud-le-ssl.conf /etc/apache2/sites-available
+envsubst < nextcloud-le-ssl.conf > /etc/apache2/sites-available/nextcloud-le-ssl.conf
 
 a2enmod rewrite proxy proxy_http
 a2ensite nextcloud.conf nextcloud-le-ssl.conf
