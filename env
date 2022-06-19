@@ -1,7 +1,7 @@
-export SERVER_URL=
-export SERVER_MAIL=
-export POSTGRES_PASSWORD=
+SERVER_URL=
+SERVER_MAIL=
+POSTGRES_PASSWORD=
 
 
-export POSTGRES_USER=nextcloud
-export POSTGRES_DB=nextcloud
+POSTGRES_USER=nextcloud
+POSTGRES_DB=nextcloud

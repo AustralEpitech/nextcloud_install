@@ -20,7 +20,7 @@ echo
 
 read -rp 'Are these values correct? (Ctrl-C to cancel) '
 
-source ./env
+export "$(cat ./env)"
 
 apt update && apt upgrade -y
 apt install -y "${DEPS[@]}"
