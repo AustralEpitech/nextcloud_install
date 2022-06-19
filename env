@@ -1,5 +1,4 @@
-export SERVER_URL=test
-export SERVER_URL
+export SERVER_URL=
 export SERVER_MAIL=
 export POSTGRES_PASSWORD=
 
