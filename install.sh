@@ -22,7 +22,7 @@ source ./env
 apt update && apt upgrade -y
 apt install -y "${DEPS[@]}"
 
-for FILE in docker-compose.yaml nextcloud*.conf; do
+for FILE in nextcloud*.conf; do
     envsubst < "$FILE" > "$FILE"
 done
 
