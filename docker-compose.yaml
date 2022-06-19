@@ -44,10 +44,11 @@ services:
 
   cron:
     image: nextcloud:apache
+    container_name: nextcloud_cron
     restart: always
     volumes:
-      - nextcloud:var/www/html
-    entrypoint: ./cron.sh
+      - nextcloud:/var/www/html
+    entrypoint: /cron.sh
     depends_on:
       - db
       - redis

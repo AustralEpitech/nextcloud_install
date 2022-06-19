@@ -11,9 +11,14 @@ DEPS=(
     python3-certbot-apache
 )
 
-[ "$EUID" != 0 ] && sudo -- "$0" "$@"
+if [ "$EUID" != 0 ]; then
+    sudo -- "$0" "$@"
+    exit
+fi
 
+echo
 cat ./env
+echo
 
 read -rp 'Are these values correct? (Ctrl-C to cancel) '
 
