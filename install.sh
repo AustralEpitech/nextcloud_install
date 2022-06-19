@@ -33,6 +33,9 @@ envsubst < nextcloud-le-ssl.conf > /etc/apache2/sites-available/nextcloud-le-ssl
 
 a2enmod rewrite proxy proxy_http
 a2ensite nextcloud.conf nextcloud-le-ssl.conf
+
+systemctl reload apache2
+
 docker-compose up -d
 
 echo -e '\e[32mDONE\e[0m'
