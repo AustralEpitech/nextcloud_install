@@ -20,9 +20,9 @@ echo
 
 read -rp 'Are these values correct? (Ctrl-C to cancel) '
 
-for var in "$(cat ./env)"; do
-    export "$var" 2> /dev/null
-done
+set -a
+. ./env
+set +a
 
 apt update && apt upgrade -y
 apt install -y "${DEPS[@]}"
