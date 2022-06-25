@@ -27,6 +27,8 @@ set +a
 apt update && apt upgrade -y
 apt install -y "${DEPS[@]}"
 
+docker-compose up -d
+
 envsubst "$(env | sed -e 's/=.*//' -e 's/^/$/')" < \
     nextcloud > \
     /etc/nginx/sites-available/nextcloud
@@ -35,8 +37,6 @@ ln -sf /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/
 
 certbot certonly -n --nginx -d "$SERVER_URL" -m "$ADMIN_MAIL" --agree-tos --test-cert
 
-systemctl reload nginx
-
-docker-compose up -d
+systemctl restart nginx
 
 echo -e '\e[32mDONE\e[0m'
