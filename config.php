@@ -4,3 +4,4 @@
     '172.18.0.1',
   ),
   'default_phone_region' => '$PHONE_REGION',
+);

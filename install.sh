@@ -18,7 +18,7 @@ echo
 cat ./variables.env
 echo
 
-read -rp 'Are these values correct? (Ctrl-C to cancel) '
+read -rp 'Are these values correct? (Ctrl-C to cancel)'
 
 set -a
 . ./variables.env
@@ -29,6 +29,16 @@ apt install -y "${DEPS[@]}"
 
 docker-compose up -d
 
+# find config.php path
+NC_CONFIG_FILE="$(sudo docker volume inspect nextcloud_config | jq '.[].Mountpoint')"
+
+# generate append default options to config.php
+head -n -1 "$NC_CONFIG_FILE" > tmp
+cat config.php >> tmp
+cat tmp > "$NC_CONFIG_FILE"
+rm tmp
+
+# install nextcloud nginx config
 envsubst "$(env | sed -e 's/=.*//' -e 's/^/$/')" < \
     nextcloud_nginx > \
     /etc/nginx/sites-available/nextcloud
