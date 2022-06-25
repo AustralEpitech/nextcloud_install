@@ -15,13 +15,13 @@ if [ "$EUID" != 0 ]; then
 fi
 
 echo
-cat ./env
+cat ./variables.env
 echo
 
 read -rp 'Are these values correct? (Ctrl-C to cancel) '
 
 set -a
-. ./env
+. ./variables.env
 set +a
 
 apt update && apt upgrade -y
