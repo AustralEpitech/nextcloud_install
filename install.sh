@@ -28,7 +28,7 @@ apt update && apt upgrade -y
 apt install -y "${DEPS[@]}"
 
 envsubst "$(env | sed -e 's/=.*//' -e 's/^/$/')" < \
-    nginx.conf > \
+    nextcloud > \
     /etc/nginx/sites-available/nextcloud
 
 ln -sf /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/
