@@ -24,6 +24,15 @@ server {
         proxy_set_header Host $server_name;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:8080;
+        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains";
+    }
+
+    location /.well-known/carddav {
+        return 301 $scheme://$host/remote.php/dav;
+    }
+
+    location /.well-known/caldav {
+        return 301 $scheme://$host/remote.php/dav;
     }
 
     ssl_certificate /etc/letsencrypt/live/$SERVER_URL/fullchain.pem;

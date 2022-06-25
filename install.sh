@@ -30,7 +30,7 @@ apt install -y "${DEPS[@]}"
 docker-compose up -d
 
 envsubst "$(env | sed -e 's/=.*//' -e 's/^/$/')" < \
-    nextcloud > \
+    nextcloud_nginx > \
     /etc/nginx/sites-available/nextcloud
 
 ln -sf /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/
