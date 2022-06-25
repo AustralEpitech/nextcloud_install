@@ -5,6 +5,7 @@ DEPS=(
     certbot
     docker-compose
     docker.io
+    jq
     nginx
     python3-certbot-nginx
 )
@@ -29,15 +30,6 @@ apt install -y "${DEPS[@]}"
 
 docker-compose up -d
 
-# find config.php path
-NC_CONFIG_FILE="$(sudo docker volume inspect nextcloud_config | jq '.[].Mountpoint')"
-
-# generate append default options to config.php
-head -n -1 "$NC_CONFIG_FILE" > tmp
-cat config.php >> tmp
-cat tmp > "$NC_CONFIG_FILE"
-rm tmp
-
 # install nextcloud nginx config
 envsubst "$(env | sed -e 's/=.*//' -e 's/^/$/')" < \
     nextcloud_nginx > \
@@ -49,4 +41,18 @@ certbot certonly -n --nginx -d "$SERVER_URL" -m "$ADMIN_MAIL" --agree-tos --test
 
 systemctl restart nginx
 
-echo -e '\e[32mDONE\e[0m'
+echo "Go to $SERVER_URL"
+echo "Create an admin account."
+echo "Wait until nextcloud finishes its setup."
+read -rp "Finally, press enter to finish the installation."
+
+# find config.php path
+NC_CONFIG_FILE="$(sudo docker volume inspect nextcloud_config | jq -r '.[].Mountpoint')/config.php"
+
+# generate append default options to config.php
+head -n -1 "$NC_CONFIG_FILE" > tmp
+cat config.php >> tmp
+cat tmp > "$NC_CONFIG_FILE"
+rm tmp
+
+echo -e '\e[32mDONE. You can reload the page\e[0m'
