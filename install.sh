@@ -2,11 +2,11 @@
 set -e
 
 DEPS=(
-    apache2
     certbot
     docker-compose
     docker.io
-    python3-certbot-apache
+    nginx
+    python3-certbot-nginx
 )
 
 if [ "$EUID" != 0 ]; then
@@ -27,16 +27,15 @@ set +a
 apt update && apt upgrade -y
 apt install -y "${DEPS[@]}"
 
-envsubst < nextcloud.conf > /etc/apache2/sites-available/nextcloud.conf
+envsubst "$(env | sed -e 's/=.*//' -e 's/^/$/')" < \
+    nginx.conf > \
+    /etc/nginx/sites-available/nextcloud
 
-certbot certonly -n --apache -d "$SERVER_URL" -m "$SERVER_MAIL" --agree-tos --test-cert
+ln -sf /etc/nginx/sites-available/nextcloud /etc/nginx/sites-enabled/
 
-envsubst < nextcloud-le-ssl.conf > /etc/apache2/sites-available/nextcloud-le-ssl.conf
+certbot certonly -n --nginx -d "$SERVER_URL" -m "$ADMIN_MAIL" --agree-tos --test-cert
 
-a2enmod rewrite proxy proxy_http
-a2ensite nextcloud.conf nextcloud-le-ssl.conf
-
-systemctl reload apache2
+systemctl reload nginx
 
 docker-compose up -d
 

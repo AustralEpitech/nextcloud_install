@@ -15,7 +15,7 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     env_file:
-      - env
+      - variables.env
 
   redis:
     image: redis
@@ -37,7 +37,7 @@ services:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
     env_file:
-      - env
+      - variables.env
     depends_on:
       - db
       - redis
