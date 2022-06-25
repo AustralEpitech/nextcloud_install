@@ -1,11 +1,4 @@
-version: '3'
-
-volumes:
-  db:
-  nextcloud:
-  apps:
-  config:
-  data:
+version: '3.4'
 
 services:
   db:
@@ -52,3 +45,15 @@ services:
     depends_on:
       - db
       - redis
+
+volumes:
+  db:
+    name: nextcloud_db
+  nextcloud:
+    name: nextcloud
+  apps:
+    name: nextcloud_apps
+  config:
+    name: nextcloud_config
+  data:
+    name: nextcloud_data
